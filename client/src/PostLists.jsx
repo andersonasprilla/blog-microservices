@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import CommentCreate from './CommentCreate'
 
 const PostLists = () => {
     const [posts, setPosts] = useState({})
@@ -28,6 +29,7 @@ const PostLists = () => {
                         <li className='card' style={{width: '30%', marginBottom: '30px' }} key={post.id}>
                             <div className='card-body'>
                             <h3>{post.title}</h3>
+                            <CommentCreate  postId={post.id}/>
                             </div>
                         </li>
                     ))}

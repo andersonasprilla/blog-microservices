@@ -1,38 +1,26 @@
-import { useEffect, useState } from 'react'
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-const CommentList = ( { postId }) => {
-    const [comments, setComments] = useState([])
-    const [error, setError] = useState('')
+const CommentList = ({ postId }) => {
+  const [comments, setComments] = useState([]);
 
-    useEffect(() => {
-        const fetchComments =  async () => {
-            try {
-                const response = await fetch(`http://localhost:4001/posts/${postId}/comments`)
-                if(!response.ok) {
-                    throw new Error('Error:', response.error)
-                }
-                const data = await response.json()
-                setComments(data)
-            } catch (error) {
-                setError('Failed to fetch url')
-            }
-        }
-        fetchComments()
-    }, [])
+  const fetchData = async () => {
+    const res = await axios.get(
+      `http://localhost:4001/posts/${postId}/comments`
+    );
 
-  return (
-    <div>
-      {error ? <p>{error}</p> : (
-        <ul>
-            {comments.map((comment) => (
-                <li key={comment.id}>
-                    {comment.content}
-                </li>
-            ))}
-        </ul>
-      )}
-    </div>
-  )
-}
+    setComments(res.data);
+  };
 
-export default CommentList
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const renderedComments = comments.map((comment) => {
+    return <li key={comment.id}>{comment.content}</li>;
+  });
+
+  return <ul>{renderedComments}</ul>;
+};
+
+export default CommentList;

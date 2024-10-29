@@ -1,37 +1,34 @@
-import { useState } from 'react'
+import React, { useState } from "react";
+import axios from "axios";
 
 const CommentCreate = ({ postId }) => {
-    const [content, setContent] = useState('')
+  const [content, setContent] = useState("");
 
-    const submitHandler = async (event) => {
-        event.preventDefault()
+  const onSubmit = async (event) => {
+    event.preventDefault();
 
-        await fetch(`http://localhost:4001/posts/${postId}/comments`,{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({content})
-        })
-        console.log(content)
-        setContent('')
-    }
+    await axios.post(`http://localhost:4001/posts/${postId}/comments`, {
+      content,
+    });
+
+    setContent("");
+  };
 
   return (
     <div>
-      <form onSubmit={submitHandler}>
-        <div className='form-group'>
-            <label>New Comment</label>
-            <input 
-            className='form-control'
+      <form onSubmit={onSubmit}>
+        <div className="form-group">
+          <label>New Comment</label>
+          <input
             value={content}
-            onChange={e => setContent(e.target.value)}
-             />
+            onChange={(e) => setContent(e.target.value)}
+            className="form-control"
+          />
         </div>
-        <button className='btn btn-primary'>Submit</button>
+        <button className="btn btn-primary">Submit</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default CommentCreate
+export default CommentCreate;

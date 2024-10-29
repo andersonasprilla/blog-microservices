@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import CommentCreate from './CommentCreate'
+import CommentList from './CommentList'
 
 const PostLists = () => {
     const [posts, setPosts] = useState({})
     const [error, setError] = useState('')
 
     useEffect(() => {
-        const fetchPosts = async () =>{
+        const fetchPosts = async () => {
             try {
                 const response = await fetch('http://localhost:4000/posts')
                 if(!response.ok) {
@@ -29,6 +30,7 @@ const PostLists = () => {
                         <li className='card' style={{width: '30%', marginBottom: '30px' }} key={post.id}>
                             <div className='card-body'>
                             <h3>{post.title}</h3>
+                            <CommentList postId={post.id}/>
                             <CommentCreate  postId={post.id}/>
                             </div>
                         </li>

@@ -30,7 +30,7 @@ app.post('/posts', async (req, res) => {
       title
     }
   });
-
+  
   res.status(201).send(posts[id]);
 });
 
